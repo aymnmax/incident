@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Date and Time Operations</title>
+    <script>
+        function subtractTime() {
+            // Get the date and time input
+            let dateTimeInput = document.getElementById("dateTime").value;
+
+            // Ensure the user provides the input
+            if (!dateTimeInput) {
+                document.getElementById("result").textContent = "Please enter a valid date and time.";
+                return;
+            }
+
+            // Create a Date object from the input
+            let date = new Date(dateTimeInput);
+
+            // Check if the date is valid
+            if (isNaN(date.getTime())) {
+                document.getElementById("result").textContent = "Invalid date format. Please enter a valid date and time.";
+                return;
+            }
+
+            // Subtract 5 hours and 30 minutes (5.5 hours = 330 minutes)
+            let subtractedDate = new Date(date.getTime() - (5.5 * 60 * 60 * 1000));
+
+            // Display the result
+            document.getElementById("result").textContent = "New Date and Time (after subtracting 5 hours 30 minutes): " + subtractedDate.toLocaleString();
+        }
+
+        function calculateIncidentPreparationTime() {
+            // Get the incident detection and reporting times
+            let detectionTimeInput = document.getElementById("detectionTime").value;
+            let reportingTimeInput = document.getElementById("reportingTime").value;
+
+            // Ensure the user provides both inputs
+            if (!detectionTimeInput || !reportingTimeInput) {
+                document.getElementById("incidentResult").textContent = "Please enter both detection and reporting times.";
+                return;
+            }
+
+            // Create Date objects from the inputs
+            let detectionTime = new Date(detectionTimeInput);
+            let reportingTime = new Date(reportingTimeInput);
+
+            // Check if both dates are valid
+            if (isNaN(detectionTime.getTime()) || isNaN(reportingTime.getTime())) {
+                document.getElementById("incidentResult").textContent = "Invalid date format. Please enter valid dates and times.";
+                return;
+            }
+
+            // Calculate the difference in milliseconds
+            let timeDifference = reportingTime - detectionTime;
+
+            if (timeDifference < 0) {
+                document.getElementById("incidentResult").textContent = "Reporting time cannot be earlier than detection time.";
+                return;
+            }
+
+            // Convert the difference to hours, minutes, and seconds
+            let hours = Math.floor(timeDifference / (1000 * 60 * 60));
+            let minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+            let seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+
+            // Display the result
+            document.getElementById("incidentResult").textContent = 
+                `Time taken for incident report preparation: ${hours} hours, ${minutes} minutes, and ${seconds} seconds.`;
+        }
+    </script>
+</head>
+<body>
+    <h1>CALCULATE UTC AND ESTIMATED TIME</h1>
+
+    <!-- Subtract 5:30 Hours Section -->
+    <h2>Enter the indian time</h2>
+    <label for="dateTime">Enter Date and Time (YYYY-MM-DDTHH:MM):</label>
+    <input type="datetime-local" id="dateTime">
+    <button onclick="subtractTime()">get UTC</button>
+    <p id="result"></p>
+
+    <!-- Incident Report Preparation Section -->
+    <h2>Incident Report Preparation Time</h2>
+    <label for="detectionTime">Enter Incident Detection Time (YYYY-MM-DDTHH:MM):</label>
+    <input type="datetime-local" id="detectionTime"><br><br>
+
+    <label for="reportingTime">Enter Incident Reporting Time (YYYY-MM-DDTHH:MM):</label>
+    <input type="datetime-local" id="reportingTime"><br><br>
+
+    <button onclick="calculateIncidentPreparationTime()">Calculate Preparation Time</button>
+    <p id="incidentResult"></p>
+
+
+
+
+
+<h2>BY AYMAN</h2>
+</body>
+</html>
